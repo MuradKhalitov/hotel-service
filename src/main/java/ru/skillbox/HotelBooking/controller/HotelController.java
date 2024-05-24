@@ -1,5 +1,6 @@
 package ru.skillbox.HotelBooking.controller;
 
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import ru.skillbox.HotelBooking.dto.ResponseList;
 import ru.skillbox.HotelBooking.dto.hotel.HotelResponse;
@@ -36,7 +37,7 @@ public class HotelController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public HotelResponse create(@RequestBody UpsertHotelRequest request) {
+    public HotelResponse create(@RequestBody @Valid UpsertHotelRequest request) {
         log.info("был вызван метод POST /api/v1/hotels");
         HotelResponse hotelResponse = service.add(request);
         log.info("метод POST /api/v1/hotels вернул ответ");

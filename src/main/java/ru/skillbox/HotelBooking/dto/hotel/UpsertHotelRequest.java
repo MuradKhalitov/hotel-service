@@ -11,14 +11,14 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class UpsertHotelRequest
 {
-    @NotBlank(message = "нужно указать имя")
+    @NotBlank(message = "введите имя")
     private String name;
-    @NotBlank(message = "нужно указать заголовок объявления")
+    @NotBlank(message = "введите заголовок объявления")
     private String adsTitle;
-    @NotBlank(message = "нужно указать город")
+    @NotBlank(message = "укажите город")
     private String city;
-    @NotBlank(message = "нужно указать адрес")
+    @NotBlank(message = "укажите адрес")
     private String address;
-    @NotNull(message = "нужно указать дистанцию до центра в метрах")
+    @NotNull(message = "укажите дистанцию до центра в метрах")
     private Integer distanceFromCentre;
 }
