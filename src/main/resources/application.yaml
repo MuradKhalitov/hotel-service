@@ -1,6 +1,7 @@
 spring:
   datasource:
-    url: jdbc:postgresql://postgres-db:5432/booking_db
+    #url: jdbc:postgresql://postgres-db:5432/booking_db
+    url: jdbc:postgresql://localhost:5432/booking_db
     username: postgres
     password: postgres
     hikari:
