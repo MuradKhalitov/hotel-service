@@ -1,11 +1,10 @@
 package ru.skillbox.HotelBooking.controller;
 
+import org.springframework.http.HttpStatus;
 import ru.skillbox.HotelBooking.dto.ResponseList;
 import ru.skillbox.HotelBooking.dto.hotel.HotelResponse;
 import ru.skillbox.HotelBooking.dto.hotel.UpsertHotelRequest;
 import ru.skillbox.HotelBooking.service.HotelService;
-import jakarta.persistence.EntityNotFoundException;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -30,38 +29,33 @@ public class HotelController {
     @GetMapping("/{id}")
     public HotelResponse findById(@PathVariable(required = false) Long id) {
         log.info("был вызван метод GET /api/v1/hotels/{id}");
-        if (id == null) {
-            throw new EntityNotFoundException("Отель не найден");
-        }
+        HotelResponse hotelResponse = service.findById(id);
         log.info("метод GET /api/v1/hotels/{} вернул ответ", id);
-        return service.findById(id);
+        return hotelResponse;
     }
 
     @PostMapping
-    public HotelResponse create(@RequestBody UpsertHotelRequest request, HttpServletResponse response) {
+    @ResponseStatus(HttpStatus.CREATED)
+    public HotelResponse create(@RequestBody UpsertHotelRequest request) {
         log.info("был вызван метод POST /api/v1/hotels");
         HotelResponse hotelResponse = service.add(request);
         log.info("метод POST /api/v1/hotels вернул ответ");
-        response.setStatus(HttpServletResponse.SC_CREATED);
         return hotelResponse;
     }
 
     @PutMapping("/{id}")
     public HotelResponse update(@PathVariable(required = false) Long id, @RequestBody UpsertHotelRequest request) {
         log.info("был вызван метод PUT /api/v1/hotels/{id}");
-        if (id == null) {
-            throw new EntityNotFoundException("Отель не найден");
-        }
-        HotelResponse response = service.update(id, request);
+        HotelResponse hotelResponse = service.update(id, request);
         log.info("метод PUT /api/v1/hotels/{} вернул ответ", id);
-        return response;
+        return hotelResponse;
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable Long id, HttpServletResponse response) {
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable Long id) {
         log.info("был вызван метод DELETE /api/v1/hotels/{}", id);
         service.delete(id);
         log.info("метод DELETE /api/v1/hotels/{} вернул ответ", id);
-        response.setStatus(HttpServletResponse.SC_NO_CONTENT);
     }
 }
