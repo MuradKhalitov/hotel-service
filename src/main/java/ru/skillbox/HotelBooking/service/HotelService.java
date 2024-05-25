@@ -32,8 +32,7 @@ public class HotelService {
     public HotelResponse findById(Long id) {
         Hotel hotel = hotelRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Отель не найден"));
-        HotelResponse hotelResponse = hotelToResponse(hotel);
-        return hotelResponse;
+        return hotelToResponse(hotel);
     }
 
     public HotelResponse add(UpsertHotelRequest request) {

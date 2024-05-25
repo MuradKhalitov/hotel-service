@@ -31,8 +31,7 @@ public class RoomService
     public RoomResponse findById(Long id) {
         Room room = roomRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Комната не найдена"));
-        RoomResponse roomResponse = roomToResponse(room);
-        return roomResponse;
+        return roomToResponse(room);
     }
 
     public RoomResponse add(UpsertRoomRequest request) {
