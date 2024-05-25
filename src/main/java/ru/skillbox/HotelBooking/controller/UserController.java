@@ -2,7 +2,6 @@ package ru.skillbox.HotelBooking.controller;
 
 import org.springframework.http.HttpStatus;
 import ru.skillbox.HotelBooking.dto.ResponseList;
-import ru.skillbox.HotelBooking.dto.hotel.HotelResponse;
 import ru.skillbox.HotelBooking.dto.user.UpsertUserRequest;
 import ru.skillbox.HotelBooking.dto.user.UserResponse;
 import ru.skillbox.HotelBooking.model.Role;
