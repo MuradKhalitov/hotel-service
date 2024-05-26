@@ -1,11 +1,15 @@
 package ru.skillbox.HotelBooking.controller;
 
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import ru.skillbox.HotelBooking.dto.ResponseList;
 import ru.skillbox.HotelBooking.dto.hotel.HotelResponse;
 import ru.skillbox.HotelBooking.dto.hotel.UpsertHotelRequest;
+import ru.skillbox.HotelBooking.model.Hotel;
 import ru.skillbox.HotelBooking.service.HotelService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -62,5 +66,15 @@ public class HotelController {
         log.info("был вызван метод DELETE /api/v1/hotels/{}", id);
         service.delete(id);
         log.info("метод DELETE /api/v1/hotels/{} вернул ответ", id);
+    }
+
+    @PutMapping("/rating/{id}")
+    public HotelResponse hotelRate(@PathVariable Long id,
+                                   @RequestParam @Min(1) @Max(5) Integer rating) {
+
+        log.info("method PUT /api/v1/hotels/rating/{id} was called");
+        HotelResponse hotelResponse = service.hotelRate(id, rating);
+        log.info("method PUT /api/v1/hotels/rating/{} returned the response", id);
+        return hotelResponse;
     }
 }

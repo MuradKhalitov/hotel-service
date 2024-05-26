@@ -56,4 +56,15 @@ public class HotelService {
     public HotelResponse hotelToResponse(Hotel hotel) {
         return mapper.hotelToResponse(hotel);
     }
+    public HotelResponse hotelRate(Long id, Integer newMark) {
+        Hotel hotel = hotelRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Отель не найден"));
+        int numberOfRating = hotel.getNumberOfRating() + 1;
+        double totalRating = hotel.getRating() * numberOfRating;
+        totalRating = totalRating - hotel.getRating() + newMark;
+        double rating = (double) Math.round(totalRating / numberOfRating * 10) / 10;
+        hotel.setRating(rating);
+        hotel.setNumberOfRating(numberOfRating);
+        return hotelToResponse(hotelRepository.save(hotel));
+    }
 }
