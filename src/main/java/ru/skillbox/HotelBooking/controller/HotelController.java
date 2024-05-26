@@ -1,6 +1,5 @@
 package ru.skillbox.HotelBooking.controller;
 
-import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
@@ -10,7 +9,6 @@ import ru.skillbox.HotelBooking.dto.ResponseList;
 import ru.skillbox.HotelBooking.dto.hotel.HotelResponse;
 import ru.skillbox.HotelBooking.dto.hotel.HotelRequest;
 import ru.skillbox.HotelBooking.dto.hotel.UpsertHotelRequest;
-import ru.skillbox.HotelBooking.model.Hotel;
 import ru.skillbox.HotelBooking.service.HotelService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

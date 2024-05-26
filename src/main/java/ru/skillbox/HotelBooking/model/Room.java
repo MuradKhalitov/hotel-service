@@ -7,6 +7,7 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Getter
@@ -26,4 +27,7 @@ public class Room
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "hotel_id", nullable = false)
     private Hotel hotel;
+
+    @OneToMany(mappedBy = "room")
+    private List<Booking> bookings;
 }

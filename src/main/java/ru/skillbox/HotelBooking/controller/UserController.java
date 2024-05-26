@@ -45,9 +45,10 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    public UserResponse update(@PathVariable(required = false) Long id, @RequestBody UpsertUserRequest request) {
+    public UserResponse update(@PathVariable(required = false) Long id, @RequestBody UpsertUserRequest request,
+                               @RequestParam Role role) {
         log.info("был вызван метод PUT /api/v1/users/{id}");
-        UserResponse userResponse = service.update(id, request);
+        UserResponse userResponse = service.update(id, request, role);
         log.info("method PUT /api/v1/users/{} returned the response", id);
         return userResponse;
     }

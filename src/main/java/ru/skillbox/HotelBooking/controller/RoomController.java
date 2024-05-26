@@ -3,6 +3,7 @@ package ru.skillbox.HotelBooking.controller;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import ru.skillbox.HotelBooking.dto.ResponseList;
+import ru.skillbox.HotelBooking.dto.room.RoomRequest;
 import ru.skillbox.HotelBooking.dto.room.RoomResponse;
 import ru.skillbox.HotelBooking.dto.room.UpsertRoomRequest;
 import ru.skillbox.HotelBooking.service.RoomService;
@@ -17,15 +18,15 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class RoomController {
     private final RoomService roomService;
+
     @GetMapping
-    public ResponseList<RoomResponse> findAll(
-            @RequestParam(defaultValue = "0") int pageNumber,
-            @RequestParam(defaultValue = "10") int pageSize) {
+    public ResponseList<RoomResponse> findAll(@RequestBody @Valid RoomRequest request) {
         log.info("был вызван метод GET /api/v1/rooms");
-        ResponseList<RoomResponse> response = roomService.findAll(pageNumber, pageSize);
+        ResponseList<RoomResponse> response = roomService.findAll(request);
         log.info("метод GET /api/v1/rooms вернул ответ");
         return response;
     }
+
 
     @GetMapping("/{id}")
     public RoomResponse findById(@PathVariable(required = false) Long id) {

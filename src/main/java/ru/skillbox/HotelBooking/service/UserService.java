@@ -1,14 +1,11 @@
 package ru.skillbox.HotelBooking.service;
 
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import ru.skillbox.HotelBooking.dto.ResponseList;
-import ru.skillbox.HotelBooking.dto.hotel.HotelResponse;
 import ru.skillbox.HotelBooking.dto.user.UpsertUserRequest;
 import ru.skillbox.HotelBooking.dto.user.UserResponse;
-import ru.skillbox.HotelBooking.model.Hotel;
 import ru.skillbox.HotelBooking.model.Role;
 import ru.skillbox.HotelBooking.model.User;
 import ru.skillbox.HotelBooking.mapper.UserMapper;
@@ -20,7 +17,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -55,12 +51,13 @@ public class UserService {
         }
     }
 
-    public UserResponse update(Long id, UpsertUserRequest request) {
+    public UserResponse update(Long id, UpsertUserRequest request,  Role role) {
         request.setPassword(passwordEncoder.encode(request.getPassword()));
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Пользователь не найден"));
 
         CopyUtils.copyNonNullProperties(mapper.requestToUser(request), user);
+        user.getRoles().add(role);
 
         return userToResponse(userRepository.save(user));
     }
