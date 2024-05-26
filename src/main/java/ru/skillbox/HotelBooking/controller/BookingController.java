@@ -1,6 +1,7 @@
 package ru.skillbox.HotelBooking.controller;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import ru.skillbox.HotelBooking.dto.ResponseList;
 import ru.skillbox.HotelBooking.dto.booking.BookingResponse;
 import ru.skillbox.HotelBooking.dto.booking.UpsertBookingRequest;
@@ -19,6 +20,7 @@ public class BookingController
     private final BookingService service;
 
     @GetMapping
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseList<BookingResponse> findAll(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {

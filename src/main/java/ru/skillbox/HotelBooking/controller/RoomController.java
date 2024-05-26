@@ -1,6 +1,7 @@
 package ru.skillbox.HotelBooking.controller;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import ru.skillbox.HotelBooking.dto.ResponseList;
 import ru.skillbox.HotelBooking.dto.room.RoomResponse;
 import ru.skillbox.HotelBooking.dto.room.UpsertRoomRequest;
@@ -36,6 +37,7 @@ public class RoomController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public RoomResponse create(@RequestBody @Valid UpsertRoomRequest request) {
         log.info("был вызван метод POST /api/v1/rooms");
         RoomResponse roomResponse = roomService.add(request);
@@ -44,6 +46,7 @@ public class RoomController {
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public RoomResponse update(@PathVariable(required = false) Long id, @RequestBody UpsertRoomRequest request) {
         log.info("был вызван метод PUT /api/v1/rooms/{id}");
         RoomResponse roomResponse = roomService.update(id, request);
@@ -53,6 +56,7 @@ public class RoomController {
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public void delete(@PathVariable Long id) {
         log.info("был вызван метод DELETE /api/v1/rooms/{}", id);
         roomService.delete(id);

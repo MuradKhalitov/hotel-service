@@ -34,7 +34,7 @@ public class UserController {
         log.info("метод GET /api/v1/users/{} вернул ответ", id);
         return userResponse;
     }
-    @PostMapping
+    @PostMapping("/create")
     @ResponseStatus(HttpStatus.CREATED)
     public UserResponse create(@RequestBody @Valid UpsertUserRequest request,
                                @RequestParam Role role) {

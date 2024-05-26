@@ -3,6 +3,7 @@ package ru.skillbox.HotelBooking.service;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import ru.skillbox.HotelBooking.dto.ResponseList;
 import ru.skillbox.HotelBooking.dto.hotel.HotelResponse;
 import ru.skillbox.HotelBooking.dto.user.UpsertUserRequest;
@@ -26,6 +27,7 @@ import java.util.List;
 public class UserService {
     private final UserRepository userRepository;
     private final UserMapper mapper;
+    private final PasswordEncoder passwordEncoder;
 
     public ResponseList<UserResponse> findAll(int pageNumber, int pageSize) {
         Page<User> page = userRepository.findAll(PageRequest.of(pageNumber, pageSize));
@@ -48,11 +50,13 @@ public class UserService {
             throw new EntityExistsException("Пользователь с таким именем или адресом электронной почты уже существует");
         } else {
             user.setRoles(Collections.singleton(role));
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
             return userToResponse(userRepository.save(user));
         }
     }
 
     public UserResponse update(Long id, UpsertUserRequest request) {
+        request.setPassword(passwordEncoder.encode(request.getPassword()));
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Пользователь не найден"));
 
@@ -66,7 +70,7 @@ public class UserService {
     }
 
     public User findByUsername(String username) {
-        return userRepository.findByUsername(username);
+        return userRepository.findByUsername(username).get();
     }
 
     public UserResponse userToResponse(User user) {
