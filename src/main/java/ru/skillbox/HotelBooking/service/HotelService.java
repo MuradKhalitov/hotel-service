@@ -1,11 +1,13 @@
 package ru.skillbox.HotelBooking.service;
 
 import ru.skillbox.HotelBooking.dto.ResponseList;
+import ru.skillbox.HotelBooking.dto.hotel.HotelRequest;
 import ru.skillbox.HotelBooking.dto.hotel.HotelResponse;
 import ru.skillbox.HotelBooking.dto.hotel.UpsertHotelRequest;
 import ru.skillbox.HotelBooking.model.Hotel;
 import ru.skillbox.HotelBooking.mapper.HotelMapper;
 import ru.skillbox.HotelBooking.repository.HotelRepository;
+import ru.skillbox.HotelBooking.repository.HotelSpecification;
 import ru.skillbox.HotelBooking.utils.CopyUtils;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -21,13 +23,17 @@ public class HotelService {
     private final HotelRepository hotelRepository;
     private final HotelMapper mapper;
 
-    public ResponseList<HotelResponse> findAll(int pageNumber, int pageSize) {
-        Page<Hotel> page = hotelRepository.findAll(PageRequest.of(pageNumber, pageSize));
+    public ResponseList<HotelResponse> findAll(HotelRequest request) {
+        Page<Hotel> page = hotelRepository.findAll(
+                HotelSpecification.withRequest(request),
+                PageRequest.of(request.getPageNumber(), request.getPageSize())
+        );
         ResponseList<HotelResponse> response = new ResponseList<>();
         response.setItems(page.getContent().stream().map(this::hotelToResponse).toList());
         response.setTotalCount(page.getTotalElements());
         return response;
     }
+
 
     public HotelResponse findById(Long id) {
         Hotel hotel = hotelRepository.findById(id)

@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import ru.skillbox.HotelBooking.dto.ResponseList;
 import ru.skillbox.HotelBooking.dto.hotel.HotelResponse;
+import ru.skillbox.HotelBooking.dto.hotel.HotelRequest;
 import ru.skillbox.HotelBooking.dto.hotel.UpsertHotelRequest;
 import ru.skillbox.HotelBooking.model.Hotel;
 import ru.skillbox.HotelBooking.service.HotelService;
@@ -23,11 +24,9 @@ public class HotelController {
     private final HotelService service;
 
     @GetMapping
-    public ResponseList<HotelResponse> findAll(
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size) {
+    public ResponseList<HotelResponse> findAll(@RequestBody @Valid HotelRequest request) {
         log.info("был вызван метод GET /api/v1/hotels");
-        ResponseList<HotelResponse> response = service.findAll(page, size);
+        ResponseList<HotelResponse> response = service.findAll(request);
         log.info("метод GET /api/v1/hotels вернул ответ");
         return response;
     }
