@@ -19,10 +19,20 @@ import org.springframework.web.bind.annotation.*;
 public class RoomController {
     private final RoomService roomService;
 
-    @GetMapping
-    public ResponseList<RoomResponse> findAll(@RequestBody @Valid RoomRequest request) {
+    @PostMapping("/filter")
+    public ResponseList<RoomResponse> filter(@RequestBody @Valid RoomRequest request) {
         log.info("был вызван метод GET /api/v1/rooms");
-        ResponseList<RoomResponse> response = roomService.findAll(request);
+        ResponseList<RoomResponse> response = roomService.filter(request);
+        log.info("метод GET /api/v1/rooms вернул ответ");
+        return response;
+    }
+
+    @GetMapping
+    public ResponseList<RoomResponse> findAll(
+            @RequestParam(defaultValue = "0") int pageNumber,
+            @RequestParam(defaultValue = "10") int pageSize) {
+        log.info("был вызван метод GET /api/v1/rooms");
+        ResponseList<RoomResponse> response = roomService.findAll(pageNumber, pageSize);
         log.info("метод GET /api/v1/rooms вернул ответ");
         return response;
     }

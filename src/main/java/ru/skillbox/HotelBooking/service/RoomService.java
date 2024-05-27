@@ -22,11 +22,18 @@ public class RoomService
     private final RoomRepository roomRepository;
     private final RoomMapper mapper;
 
-    public ResponseList<RoomResponse> findAll(RoomRequest request) {
+    public ResponseList<RoomResponse> filter(RoomRequest request) {
         Page<Room> page = roomRepository.findAll(
                 RoomSpecification.withRequest(request),
                 PageRequest.of(request.getPageNumber(), request.getPageSize())
         );
+        ResponseList<RoomResponse> response = new ResponseList<>();
+        response.setItems(page.getContent().stream().map(this::roomToResponse).toList());
+        response.setTotalCount(page.getTotalElements());
+        return response;
+    }
+    public ResponseList<RoomResponse> findAll(int pageNumber, int pageSize) {
+        Page<Room> page = roomRepository.findAll(PageRequest.of(pageNumber, pageSize));
         ResponseList<RoomResponse> response = new ResponseList<>();
         response.setItems(page.getContent().stream().map(this::roomToResponse).toList());
         response.setTotalCount(page.getTotalElements());

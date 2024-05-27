@@ -15,15 +15,13 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @Service
 @RequiredArgsConstructor
 public class HotelService {
     private final HotelRepository hotelRepository;
     private final HotelMapper mapper;
 
-    public ResponseList<HotelResponse> findAll(HotelRequest request) {
+    public ResponseList<HotelResponse> filter(HotelRequest request) {
         Page<Hotel> page = hotelRepository.findAll(
                 HotelSpecification.withRequest(request),
                 PageRequest.of(request.getPageNumber(), request.getPageSize())
@@ -34,6 +32,13 @@ public class HotelService {
         return response;
     }
 
+    public ResponseList<HotelResponse> findAll(int pageNumber, int pageSize) {
+        Page<Hotel> page = hotelRepository.findAll(PageRequest.of(pageNumber, pageSize));
+        ResponseList<HotelResponse> response = new ResponseList<>();
+        response.setItems(page.getContent().stream().map(this::hotelToResponse).toList());
+        response.setTotalCount(page.getTotalElements());
+        return response;
+    }
 
     public HotelResponse findById(Long id) {
         Hotel hotel = hotelRepository.findById(id)

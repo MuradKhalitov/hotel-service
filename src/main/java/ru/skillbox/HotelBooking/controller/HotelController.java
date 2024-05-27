@@ -21,10 +21,19 @@ import org.springframework.web.bind.annotation.*;
 public class HotelController {
     private final HotelService service;
 
-    @GetMapping
-    public ResponseList<HotelResponse> findAll(@RequestBody @Valid HotelRequest request) {
+    @PostMapping("/filter")
+    public ResponseList<HotelResponse> filter(@RequestBody @Valid HotelRequest request) {
         log.info("был вызван метод GET /api/v1/hotels");
-        ResponseList<HotelResponse> response = service.findAll(request);
+        ResponseList<HotelResponse> response = service.filter(request);
+        log.info("метод GET /api/v1/hotels вернул ответ");
+        return response;
+    }
+    @GetMapping
+    public ResponseList<HotelResponse> findAll(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        log.info("был вызван метод GET /api/v1/hotels");
+        ResponseList<HotelResponse> response = service.findAll(page, size);
         log.info("метод GET /api/v1/hotels вернул ответ");
         return response;
     }
