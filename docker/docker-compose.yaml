@@ -11,6 +11,11 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
       - POSTGRES_DB=booking_db
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres-db:5432/booking_db
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=postgres
+      - SPRING_DATA_MONGODB_URI=mongodb://root:root@mongo-db:27017/appdatabase?authSource=admin
+      - SPRING_KAFKA_BOOTSTRAP_SERVERS=kafka:9092
     depends_on:
       - postgres-db
       - mongo-db
@@ -48,7 +53,8 @@ services:
       KAFKA_BROKER_ID: 1
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
       KAFKA_LOG4J_LEGGERS: "kafka.controller=INFO, kafka.producer.asyncDefaultEventHandler=INFO, state.change.logger=INFO"
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://$DOCKERHOST:9092
+#      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://$DOCKERHOST:9092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
       KAFKA_AUTO_CRATE_ENABLE: true
