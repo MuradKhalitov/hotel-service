@@ -2,6 +2,7 @@ package ru.skillbox.HotelBooking.mapper;
 
 import ru.skillbox.HotelBooking.dto.booking.BookingResponse;
 import ru.skillbox.HotelBooking.dto.booking.UpsertBookingRequest;
+import ru.skillbox.HotelBooking.dto.event.NewBookingEvent;
 import ru.skillbox.HotelBooking.model.Booking;
 import ru.skillbox.HotelBooking.repository.RoomRepository;
 import ru.skillbox.HotelBooking.repository.UserRepository;
@@ -29,5 +30,6 @@ public abstract class BookingMapper {
 
     @Mapping(source = "id", target = "bookingId")
     public abstract BookingResponse bookingToResponse(Booking booking);
-
+    @Mapping(source = "user.id", target = "userId")
+    public abstract NewBookingEvent bookingToEvent(Booking booking);
 }

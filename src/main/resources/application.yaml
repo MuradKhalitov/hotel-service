@@ -1,6 +1,6 @@
 spring:
   datasource:
-    #url: jdbc:postgresql://postgres-db:5432/booking_db
+#    url: jdbc:postgresql://postgres-db:5432/booking_db
     url: jdbc:postgresql://localhost:5432/booking_db
     username: postgres
     password: postgres
@@ -15,3 +15,20 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQLDialect
     generate-ddl: true
 
+  data:
+    mongodb:
+#      uri: mongodb://root:root@mongo-db:27017/appdatabase?authSource=admin
+      uri: mongodb://root:root@localhost:27017/appdatabase?authSource=admin
+
+  kafka:
+#    bootstrap-servers: kafka:9092
+    bootstrap-servers: localhost:9092
+    mvc:
+      format:
+        date-time: iso
+
+app:
+  kafka:
+    kafkaMessageUserRegisterTopic: "user-register"
+    kafkaMessageNewBookingTopic: "new-booking"
+    kafkaMessageGroupId: "kafka-message-group-id"
